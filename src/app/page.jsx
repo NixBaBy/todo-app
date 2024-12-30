@@ -5,13 +5,21 @@ import styles from "./page.module.css";
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const [check, setCheck] = useState([]);
   const addTodoHandler = () => {
     setTodos([...todos, newTodo]);
   };
   const deleteHandler = (index) => {
+    confirm("Are you sure you want to delete this task?");
     todos.splice(index, 1);
     setTodos([...todos]);
   };
+  const allDeleteHandler = () => {
+    confirm("Are you sure you want to clear all completed task");
+    todos.splice(0, todos.length);
+    setTodos([...todos]);
+  };
+  const checkHandler = (index) => {};
   return (
     <div className={styles.page}>
       <div className={styles.pageContainer}>
@@ -31,25 +39,31 @@ export default function Home() {
           <button className={styles.fButtons}>Active</button>
           <button className={styles.fButtons}>Completed</button>
         </div>
-        <div>
-          {todos.map((todo, index) => (
-            <div className={styles.newsTodo} key={index}>
-              <div className={styles.newsTodoLeft}>
-                <input type="checkbox" />
-                {todo}
-              </div>
-              <button
-                className={styles.deleteButton}
-                onClick={() => deleteHandler(index)}
-              >
-                Delete
-              </button>
+
+        {todos.map((todo, index) => (
+          <div className={styles.newsTodo} key={index}>
+            <div className={styles.newsTodoLeft}>
+              <input
+                className={styles.checkbox}
+                type="checkbox"
+                onChange={(e) => setCheck(e.target.value)}
+              />
+              <p> {todo}</p>
             </div>
-          ))}
-        </div>
+            <button
+              className={styles.deleteButton}
+              onClick={() => deleteHandler(index)}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
       </div>
       <div className={styles.tittle}>
-        <p className={styles.tittleP}>No tasks yet. Add one above</p>
+        <div className={styles.compl}>
+          <p>1 of {todos.length} tasks completed</p>
+          <button onClick={allDeleteHandler}>Clear Completed</button>
+        </div>
         <div className={styles.power}>
           <p className={styles.powerP}>Powered by</p>
           <a href="#">Pinecone Academy</a>
@@ -58,3 +72,5 @@ export default function Home() {
     </div>
   );
 }
+
+//  <p className={styles.tittleP}>No tasks yet. Add one above</p>
