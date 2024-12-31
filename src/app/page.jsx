@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import styles from "./page.module.css";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
-  const [check, setCheck] = useState([]);
+  const [checked, setChecked] = useState(0);
+  const [activeFilter, setActiveFiler] = useState("all");
+  //   const [completed, setCompleted] = useState([]);
   const addTodoHandler = () => {
     setTodos([...todos, newTodo]);
   };
@@ -19,7 +21,12 @@ export default function Home() {
     todos.splice(0, todos.length);
     setTodos([...todos]);
   };
-  const checkHandler = (index) => {};
+  const checkBoxHandler = (e) => {
+    if (true == e.target.checked) {
+      setChecked(checked + 1);
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.pageContainer}>
@@ -34,39 +41,68 @@ export default function Home() {
             Add
           </button>
         </div>
-        <div className={styles.flex}>
-          <button className={styles.allButton}>All</button>
-          <button className={styles.fButtons}>Active</button>
-          <button className={styles.fButtons}>Completed</button>
+        <div className={`${styles.flex} ${styles.filterButtons}`}>
+          <button
+            className={activeFilter == "all" && styles.active}
+            onClick={() => setActiveFiler("all")}
+          >
+            All
+          </button>
+          <button
+            className={activeFilter == "active" && styles.active}
+            onClick={() => setActiveFiler("active")}
+          >
+            Active
+          </button>
+          <button
+            className={activeFilter == "completed" && styles.active}
+            onClick={() => setActiveFiler("completed")}
+          >
+            Completed
+          </button>
         </div>
 
-        {todos.map((todo, index) => (
-          <div className={styles.newsTodo} key={index}>
-            <div className={styles.newsTodoLeft}>
-              <input
-                className={styles.checkbox}
-                type="checkbox"
-                onChange={(e) => setCheck(e.target.value)}
-              />
-              <p> {todo}</p>
+        {todos.length ? (
+          todos.map((todo, index) => (
+            <div className={styles.task}>
+              <div className={styles.newsTodo} key={index}>
+                <div className={styles.newsTodoLeft}>
+                  <input
+                    className={styles.checkbox}
+                    type="checkbox"
+                    onChange={checkBoxHandler}
+                  />
+                  <p> {todo}</p>
+                </div>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deleteHandler(index)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-            <button
-              className={styles.deleteButton}
-              onClick={() => deleteHandler(index)}
-            >
-              Delete
-            </button>
+          ))
+        ) : (
+          <div>
+            <p className={styles.noTask}>No tasks yet.Add one above</p>
           </div>
-        ))}
-      </div>
-      <div className={styles.tittle}>
-        <div className={styles.compl}>
-          <p>1 of {todos.length} tasks completed</p>
-          <button onClick={allDeleteHandler}>Clear Completed</button>
-        </div>
-        <div className={styles.power}>
-          <p className={styles.powerP}>Powered by</p>
-          <a href="#">Pinecone Academy</a>
+        )}
+        <div className={styles.tittle}>
+          {todos.length ? (
+            <div className={styles.compl}>
+              <p>
+                {checked} of {todos.length} tasks completed
+              </p>
+              <button onClick={allDeleteHandler}>Clear Completed</button>
+            </div>
+          ) : (
+            ""
+          )}
+          <div className={styles.power}>
+            <p className={styles.powerP}>Powered by</p>
+            <a href="#">Pinecone Academy</a>
+          </div>
         </div>
       </div>
     </div>

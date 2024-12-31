@@ -57,7 +57,7 @@
   color: white;
   font-size: 14px;
 }
-.allButton {
+/* .allButton {
   display: flex;
   height: 32px;
   padding: 4px 12px;
@@ -70,8 +70,8 @@
   color: white;
   font-size: 12px;
   font-weight: 400;
-}
-.fButtons {
+} */
+.filterButtons button {
   display: flex;
   height: 32px;
   padding: 4px 12px;
@@ -99,6 +99,7 @@
 .power {
   display: flex;
   gap: 4px;
+  justify-content: center;
 }
 .powerP {
   color: #6b7280;
@@ -166,4 +167,20 @@
 }
 .newsTodoLeft input[type="checkbox"]:checked + p {
   text-decoration: line-through;
+}
+.active {
+  color: white !important;
+  background-color: #3c82f6 !important;
+}
+.noTask {
+  color: #6b7280;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 32px;
+}
+.compl p {
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 400;
 }
