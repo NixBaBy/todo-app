@@ -25,3 +25,24 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+// class BinaryNode {
+//   constructor(value, left, right) {
+//     this.value = value;
+//     this.left = left;
+//     this.right = right;
+//   }
+// }
+// const root = new BinaryNode("a");
+// const b = new BinaryNode("b");
+// const c = new BinaryNode("c");
+// const d = new BinaryNode("d");
+// const e = new BinaryNode("e");
+// const f = new BinaryNode("f");
+
+// root.left = b;
+// b.left = d;
+// b.right = e;
+// root.right = c;
+// c.left = f;
+// console.log(root);
