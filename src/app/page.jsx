@@ -4,50 +4,62 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const [todos, setTodos] = useState([]);
-  const [todos2, setTodos2] = useState([]);
+  const [todos2, setTodos2] = useState([...todos]);
   const [newTodo, setNewTodo] = useState({
+    id: 0,
     name: "",
     complet: false,
   });
-  const [checked, setChecked] = useState(0);
   const [activeFilter, setActiveFiler] = useState("all");
-  //   const [completed, setCompleted] = useState([]);
-  const addTodoHandler = () => {
+
+  const addTodoHandler = (e) => {
+    if (newTodo.name.trim() === "") {
+      alert("please enter a task!");
+      return;
+    }
+
     setTodos([...todos, newTodo]);
-    console.log();
+    setTodos2([...todos, newTodo]);
   };
+
+  const checkedHandler = todos.filter((todo) => todo.complet).length;
+
   const deleteHandler = (index) => {
     confirm("Are you sure you want to delete this task?");
     todos.splice(index, 1);
-    setTodos([...todos]);
+    setTodos2([...todos]);
   };
+
   const allDeleteHandler = () => {
     confirm("Are you sure you want to clear all completed task");
     todos.splice(0, todos.length);
-    setTodos([...todos]);
+    setTodos2([...todos]);
   };
+
   const checkBoxHandler = (e, index) => {
     todos[index].complet
       ? (todos[index].complet = false)
       : (todos[index].complet = true);
     setTodos([...todos]);
   };
+
   const completButtun = () => {
     setActiveFiler("completed");
     const filtered = todos.filter((todo) => todo.complet == true);
-    setTodos2(todos);
-    setTodos([...filtered]);
+    setTodos2([...filtered]);
   };
+
   const allButton = () => {
     setActiveFiler("all");
-    setTodos([...todos2]);
+    setTodos2([...todos]);
   };
+
   const activeButton = () => {
     setActiveFiler("active");
-    const activeFiltered = todos2.filter((todo) => todo.complet == false);
-    setTodos2(todos);
-    setTodos([...activeFiltered]);
+    const activeFiltered = todos.filter((todo) => todo.complet == false);
+    setTodos2([...activeFiltered]);
   };
+
   return (
     <div className={styles.page}>
       <div className={styles.pageContainer}>
@@ -90,7 +102,7 @@ export default function Home() {
         </div>
 
         {todos.length ? (
-          todos.map((todo, index) => (
+          todos2.map((todo, index) => (
             <div key={index} className={styles.task}>
               <div className={styles.newsTodo} key={index}>
                 <div className={styles.newsTodoLeft}>
@@ -123,7 +135,7 @@ export default function Home() {
           {todos.length ? (
             <div className={styles.compl}>
               <p>
-                {} of {todos.length} tasks completed
+                {checkedHandler} of {todos.length} tasks completed
               </p>
               <button onClick={allDeleteHandler}>Clear Completed</button>
             </div>
